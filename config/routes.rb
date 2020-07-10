@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 get '/' do
-  'Hello routed！！！  '
+  Memo.new.index
 end
