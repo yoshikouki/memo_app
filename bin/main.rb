@@ -4,7 +4,4 @@
 $LOAD_PATH.unshift File.expand_path('./lib/', __dir__)
 
 require 'sinatra'
-
-get '/' do
-  'Hello world!'
-end
+require './config/routes'
