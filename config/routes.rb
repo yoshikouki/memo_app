@@ -22,7 +22,13 @@ get '/new' do
 end
 
 # create
-post '/:path' do
+post '/' do
+  memo = Memo::Content.new
+  title = 'form_title'
+  content = 'form_content'
+  memo.create(title: title, content: content)
+  p params
+  redirect "/#{memo.title}"
 end
 
 # show
@@ -53,12 +59,24 @@ end
 
 module Memo
   class Content
-    attr_accessor :name, :string, :content_array
+    attr_accessor :title, :content, :content_array
 
-    def initialize(path)
-      @name = path
-      @string = File.read("./data/#{path}")
-      @content_array = @string.split(/[\n|\r\n|\r]/)
+    def initialize(path = '')
+      @title = path
+      unless path.empty?
+        @content = File.read("./data/#{path}")
+        @content_array = @content.split(/[\n|\r\n|\r]/)
+      end
+    end
+
+    def create(title:, content:)
+      @title = title
+      @content = content
+      save
+    end
+
+    def save
+      puts 'saveしました'
     end
   end
 end
