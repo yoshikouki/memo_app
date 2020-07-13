@@ -2,8 +2,11 @@
 
 require 'haml'
 
+set :haml, format: :html5,
+           views: './views'
+
 get '/' do
   @title = 'これはタイトルです。'
   @subtitle = 'これはサブタイトルです。'
-  haml :index, :format =>  :html5
+  haml :index
 end
