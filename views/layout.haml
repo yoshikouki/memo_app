@@ -16,13 +16,25 @@
     %header.container.header.py-5.row
       %a.col.text-dark.decoration-none{ href: "/" }
         %h1 MemoApp
+      = if @is_index
+        .col-4
+          %a.btn.btn-outline-primary{ href: "/new", role: "button" }
+            new
+
     %section.container
       = yield
-    %footer.container.small.text-center.font-weight-light.text-secondary
+
+    %footer.container.small.text-center.font-weight-light.text-secondary.py-5
       made by yoshikouki
+
+      .container
+        %a.btn.btn-outline-primary{ href: "/", role: "button" }       index
+        %a.btn.btn-outline-primary{ href: "/new", role: "button" }    new
+        %a.btn.btn-outline-primary{ href: "/1", role: "button" }      show
+        %a.btn.btn-outline-primary{ href: "/1/edit", role: "button" } edit
 
     / Optional JavaScript
     / jQuery first, then Popper.js, then Bootstrap JS
-    %script{:crossorigin => "anonymous", :integrity => "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", :src => "https://code.jquery.com/jquery-3.5.1.slim.min.js"}
-    %script{:crossorigin => "anonymous", :integrity => "sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo", :src => "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"}
-    %script{:crossorigin => "anonymous", :integrity => "sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI", :src => "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"}
+    %script{ :crossorigin => "anonymous", :integrity => "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", :src => "https://code.jquery.com/jquery-3.5.1.slim.min.js" }
+    %script{ :crossorigin => "anonymous", :integrity => "sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo", :src => "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" }
+    %script{ :crossorigin => "anonymous", :integrity => "sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI", :src => "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" }

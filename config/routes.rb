@@ -7,6 +7,22 @@ set :haml, format: :html5,
 
 get '/' do
   @title = 'これはタイトルです。'
-  @subtitle = 'これはサブタイトルです。'
+  @is_index = true
   haml :index
+end
+
+get '/new' do
+  @title = 'New Memo'
+  @subtitle = 'これはサブタイトルです。'
+  haml :new
+end
+
+get '/:id' do
+  @title = 'Show Memo'
+  haml :show
+end
+
+get '/:id/edit' do
+  @title = 'Edit Memo'
+  haml :edit
 end
