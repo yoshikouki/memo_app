@@ -19,8 +19,10 @@ get '/new' do
   haml :new
 end
 
-get '/:id' do
-  @title = 'Show Memo'
+get '/:path' do
+  @path = request.path
+  @title = "Show #{@path}"
+  @content = File.read("./data/#{@path}")
   haml :show
 end
 
