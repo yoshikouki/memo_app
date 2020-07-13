@@ -9,4 +9,3 @@ require 'sinatra'
 require 'sinatra/reloader'
 
 require './config/routes'
-require 'controllers/memo'
