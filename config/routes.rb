@@ -21,9 +21,13 @@ end
 
 get '/:path' do
   @path = request.path
-  @title = "Show #{@path}"
-  @content = File.read("./data/#{@path}")
-  haml :show
+  if Dir.glob("./data/#{@path}").empty?
+    redirect '/'
+  else
+    @title = "Show #{@path}"
+    @content = File.read("./data/#{@path}").split(/[\n|\r\n|\r]/)
+    haml :show
+  end
 end
 
 get '/:id/edit' do

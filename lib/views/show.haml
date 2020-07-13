@@ -1,5 +1,13 @@
-%h2
+%h2.mb-5.px-0
   = @path
 
-%p
-  =@content
+.card.mx-0.p-5
+  - @content.each do |line|
+    %p
+      = line
+
+.my-5.px-0
+  %a.btn.btn-block.btn-secondary.mb-3{ href: "#{@path}/edit", role: 'button' }
+    編集
+  %a.btn.btn-block.btn-outline-danger{ href: "#{@path}/delete", role: 'button' }
+    削除
