@@ -3,17 +3,16 @@
 require 'haml'
 
 set :haml, format: :html5,
-           views: './views'
+           views: './lib/views'
 
 get '/' do
-  @title = 'これはタイトルです。'
+  @title = 'Memo App'
   @is_index = true
   haml :index
 end
 
 get '/new' do
   @title = 'New Memo'
-  @subtitle = 'これはサブタイトルです。'
   haml :new
 end
 
