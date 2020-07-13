@@ -17,7 +17,7 @@ end
 
 # new
 get '/new' do
-  @title = 'New Memo'
+  @title = 'New Memo | Memo App'
   haml :new
 end
 
@@ -39,7 +39,7 @@ end
 
 # edit
 get '/:id/edit' do
-  @title = 'Edit Memo'
+  @title = 'Edit Memo | Memo App'
   haml :edit
 end
 
