@@ -27,12 +27,12 @@ end
 
 # show
 get '/:path' do
-  @path = request.path
+  @path = request.path.slice(/[\w-]+/)
   if Dir.glob("./data/#{@path}").empty?
     redirect '/'
   else
-    @title = "Show #{@path}"
-    @content = File.read("./data/#{@path}").split(/[\n|\r\n|\r]/)
+    @title = "Show #{@path} | Memo App"
+    @memo = Memo::Content.new(@path)
     haml :show
   end
 end
@@ -49,4 +49,16 @@ end
 
 # destroy
 delete '/:path' do
+end
+
+module Memo
+  class Content
+    attr_accessor :name, :string, :content_array
+
+    def initialize(path)
+      @name = path
+      @string = File.read("./data/#{path}")
+      @content_array = @string.split(/[\n|\r\n|\r]/)
+    end
+  end
 end
