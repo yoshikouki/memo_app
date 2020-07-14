@@ -24,10 +24,7 @@ end
 # create
 post '/' do
   memo = Memo::Content.new
-  title = 'form_title'
-  content = 'form_content'
-  memo.create(title: title, content: content)
-  p params
+  memo.create(title: params['title'], content: params['content'])
   redirect "/#{memo.title}"
 end
 
@@ -76,7 +73,9 @@ module Memo
     end
 
     def save
-      puts 'saveしました'
+      File.open("./data/#{@title}", 'w') do |f|
+        f.print @content
+      end
     end
   end
 end
