@@ -7,9 +7,9 @@ set :haml, format: :html5,
 
 helpers do
   def fetch_memo(request_path)
-    memo = Memo::Validation.new(request_path)
-    if memo.valid?
-      memo.load_content
+    @validation = Memo::Validation.new(request_path)
+    if @validation.exit?
+      @validation.load_content
     else
       redirect '/'
     end
@@ -35,9 +35,11 @@ end
 # create
 post '/' do
   title = params['title']
-  memo = Memo::Validation.new(title)
-  memo.create_content(title: title, text: params['text'])
-  redirect "/#{memo.title}"
+  validation = Memo::Validation.new(title)
+  if validation.validate_new_content(title: title, text: params[:text])
+    validation.create_content
+  end
+  redirect "/#{validation.title}"
 end
 
 # show
@@ -107,12 +109,20 @@ module Memo
       @path = "./data/#{@title}"
     end
 
-    def valid?
-      !Dir.glob(@path).empty?
+    def exit?(path = @path)
+      !Dir.glob(path).empty?
     end
 
-    def create_content(title:, text:)
-      Content.new.create(title: title, text: text)
+    def validate_new_content(title:, text:)
+      return false if exit?("./data/#{title}")
+
+      @title = title
+      @text = text
+      self
+    end
+
+    def create_content
+      Content.new.create(title: @title, text: @text)
     end
 
     def load_content
