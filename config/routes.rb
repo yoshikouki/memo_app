@@ -24,19 +24,20 @@ end
 # create
 post '/' do
   memo = Memo::Content.new
-  memo.create(title: params['title'], content: params['content'])
+  memo.create(title: params['title'], text: params['content'])
   redirect "/#{memo.title}"
 end
 
 # show
 get '/:path' do
-  @path = request.path.slice(/[\w-]+/)
-  if Dir.glob("./data/#{@path}").empty?
-    redirect '/'
-  else
-    @title = "Show #{@path} | Memo App"
-    @memo = Memo::Content.new(@path)
+  memo = Memo::Validation.new(request.path)
+  if memo.valid?
+    @memo_title = memo.title
+    @title = "Show #{@memo_title} | Memo App"
+    @memo = memo.load_content
     haml :show
+  else
+    redirect '/'
   end
 end
 
@@ -56,26 +57,51 @@ end
 
 module Memo
   class Content
-    attr_accessor :title, :content, :content_array
+    attr_accessor :title, :text, :text_array
 
-    def initialize(path = '')
-      @title = path
-      unless path.empty?
-        @content = File.read("./data/#{path}")
-        @content_array = @content.split(/[\n|\r\n|\r]/)
-      end
+    def initialize(title = '')
+      return if title.empty?
+
+      @title = title
+      @text = load_text
+      @text_array = convert_text_to_array
+    end
+
+    def load_text
+      File.read("./data/#{@title}")
+    end
+
+    def convert_text_to_array
+      @text.split(/[\n|\r\n|\r]/)
     end
 
     def create(title:, content:)
       @title = title
-      @content = content
+      @text = content
       save
     end
 
     def save
       File.open("./data/#{@title}", 'w') do |f|
-        f.print @content
+        f.print @text
       end
+    end
+  end
+
+  class Validation
+    attr_reader :title, :path
+
+    def initialize(request_path)
+      @title = request_path.slice(/[\w-]+/)
+      @path = "./data#{request_path}"
+    end
+
+    def valid?
+      !Dir.glob(@path).empty?
+    end
+
+    def load_content
+      Content.new(@title)
     end
   end
 end

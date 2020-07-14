@@ -1,13 +1,13 @@
 %h2.mb-5.px-0
-  = @path
+  = @memo_title
 
 .card.mx-0.p-5
-  - @memo.content_array.each do |line|
+  - @memo.text_array.each do |line|
     %p
       = line
 
 .my-5.px-0
-  %a.btn.btn-block.btn-secondary.mb-3{ href: "#{@path}/edit", role: 'button' }
+  %a.btn.btn-block.btn-secondary.mb-3{ href: "#{@memo_title}/edit", role: 'button' }
     編集
-  %a.btn.btn-block.btn-outline-danger{ href: "#{@path}/delete", role: 'button' }
+  %a.btn.btn-block.btn-outline-danger{ href: "#{@memo_title}/delete", role: 'button' }
     削除
