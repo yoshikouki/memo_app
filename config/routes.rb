@@ -12,7 +12,6 @@ helpers do
       memo.load_content
     else
       redirect '/'
-      return
     end
   end
 end
@@ -57,12 +56,14 @@ get '/:path/edit' do
 end
 
 # update
-patch '/:path' do
+put '/:path' do
   memo = fetch_memo(request.path)
+  redirect "/#{memo.title}"
 end
 
 # destroy
 delete '/:path' do
+  redirect '/'
 end
 
 module Memo
