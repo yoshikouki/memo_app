@@ -25,9 +25,7 @@ end
 post '/' do
   title = params['title']
   validation = Memo::Validation.new(title)
-  if validation.validate_new_content(title: title, text: params[:text])
-    validation.create_content
-  end
+  validation.create_content if validation.validate_new_content(title: title, text: params[:text])
   redirect "/#{validation.title}"
 end
 
@@ -49,6 +47,7 @@ end
 # update
 put '/:path' do
   memo = fetch_memo(request.path)
+  @validation.update_content(memo.title) if @validation.validate_update_content(memo, params)
   redirect "/#{memo.title}"
 end
 
@@ -89,6 +88,15 @@ module Memo
     end
 
     def create(title:, text:)
+      @title ||= title
+      @text = text
+      save
+    end
+
+    def update(title:, text:)
+      if @title != title
+        File.rename("./data/#{@title}", "./data/#{title}")
+      end
       @title = title
       @text = text
       save
@@ -121,12 +129,25 @@ module Memo
       self
     end
 
+    def validate_update_content(memo, new_content)
+      new_title = new_content[:title]
+      return false if memo.title != new_title && exit?("./data/#{new_title}")
+
+      @title = new_title
+      @text = new_content[:text]
+      self
+    end
+
     def create_content
       Content.new.create(title: @title, text: @text)
     end
 
     def load_content
       Content.new(@title)
+    end
+
+    def update_content(old_title)
+      Content.new(old_title).update(title: @title, text: @text)
     end
   end
 end
