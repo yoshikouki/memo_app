@@ -53,6 +53,9 @@ end
 
 # destroy
 delete '/:path' do
+  if memo = fetch_memo(request.path)
+    memo.destroy
+  end
   redirect '/'
 end
 
@@ -106,6 +109,10 @@ module Memo
       File.open("./data/#{@title}", 'w') do |f|
         f.print @text
       end
+    end
+
+    def destroy
+      File.delete("./data/#{@title}")
     end
   end
 
