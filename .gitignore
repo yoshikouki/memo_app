@@ -1,3 +1,7 @@
 
 .idea
 .idea/*
+
+# テキストファイルのディレクトリ
+data
+.byebug_history

@@ -1,0 +1,15 @@
+%h2.mb-5.px-0
+  = @memo.title
+
+.card.mx-0.mb-3.p-5
+  - @memo.text_array.each do |line|
+    %p
+      = line
+
+.mb-5.px-0
+  %a.btn.btn-block.btn-secondary.mb-3{ href: "#{@memo.title}/edit", role: 'button' }
+    Edit
+  %form#delete-form{ action: "/#{@memo.title}", method: 'post' }
+    %input{ type: 'hidden', name: '_method', value: 'DELETE' }
+    %button.btn.btn-block.btn-outline-danger{ type: 'submit' }
+      Delete
