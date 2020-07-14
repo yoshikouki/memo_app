@@ -23,9 +23,8 @@ end
 
 # create
 post '/' do
-  title = params['title']
-  validation = Memo::Validation.new(title)
-  validation.create_content if validation.validate_new_content(title: title, text: params[:text])
+  validation = Memo::Accessor.new(params['title'])
+  validation.create_content if validation.validate_new_content(text: params[:text])
   redirect "/#{validation.title}"
 end
 
@@ -60,7 +59,7 @@ end
 
 helpers do
   def fetch_memo(request_path)
-    @validation = Memo::Validation.new(request_path)
+    @validation = Memo::Accessor.new(request_path)
     if @validation.exit?
       @validation.load_content
     else
@@ -76,13 +75,14 @@ module Memo
     def initialize(title = '')
       return if title.empty?
 
+      @path = "./data/#{title}"
       @title = title
       @text = load_text
       @text_array = convert_text_to_array
     end
 
     def load_text
-      File.read("./data/#{@title}")
+      File.read(@path)
     end
 
     def convert_text_to_array
@@ -96,26 +96,22 @@ module Memo
     end
 
     def update(title:, text:)
-      if @title != title
-        File.rename("./data/#{@title}", "./data/#{title}")
-      end
+      File.rename(@path, "./data/#{title}") if @title != title
       @title = title
       @text = text
       save
     end
 
     def save
-      File.open("./data/#{@title}", 'w') do |f|
-        f.print @text
-      end
+      File.open(@path, 'w') { |f| f.print @text }
     end
 
     def destroy
-      File.delete("./data/#{@title}")
+      File.delete(@path)
     end
   end
 
-  class Validation
+  class Accessor
     attr_reader :title, :path
 
     def initialize(request_path)
@@ -127,10 +123,9 @@ module Memo
       !Dir.glob(path).empty?
     end
 
-    def validate_new_content(title:, text:)
-      return false if exit?("./data/#{title}")
+    def validate_new_content(text:)
+      return false if exit?(@path)
 
-      @title = title
       @text = text
       self
     end
