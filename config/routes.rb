@@ -23,8 +23,9 @@ end
 
 # create
 post '/' do
-  memo = Memo::Content.new
-  memo.create(title: params['title'], text: params['content'])
+  title = params['title']
+  memo = Memo::Validation.new(title)
+  memo.create_content(title: title, text: params['text'])
   redirect "/#{memo.title}"
 end
 
@@ -75,9 +76,9 @@ module Memo
       @text.split(/[\n|\r\n|\r]/)
     end
 
-    def create(title:, content:)
+    def create(title:, text:)
       @title = title
-      @text = content
+      @text = text
       save
     end
 
@@ -98,6 +99,10 @@ module Memo
 
     def valid?
       !Dir.glob(@path).empty?
+    end
+
+    def create_content(title:, text:)
+      Content.new.create(title: title, text: text)
     end
 
     def load_content
