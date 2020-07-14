@@ -5,10 +5,10 @@
        action: "/" }
   .memo-title.form-group.my-3
     %input#memo-name.form-control.w-100.px-4{ type: 'text',
-                            title: 'title',
+                            name: 'title',
                             placeholder: 'Title' }
   .memo-content.form-group.my-3
-    %textarea#memo-content.form-control.w-100.px-4.py-3{ title: 'content',
+    %textarea#memo-content.form-control.w-100.px-4.py-3{ name: 'content',
                                                          rows: '10',
                                                          placeholder: 'Content' }
   .submit.my-3
