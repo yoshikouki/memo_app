@@ -33,9 +33,8 @@ end
 get '/:path' do
   memo = Memo::Validation.new(request.path)
   if memo.valid?
-    @memo_title = memo.title
-    @title = "Show #{@memo_title} | Memo App"
     @memo = memo.load_content
+    @title = "Show #{@memo.title} | Memo App"
     haml :show
   else
     redirect '/'
