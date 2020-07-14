@@ -5,17 +5,6 @@ require 'haml'
 set :haml, format: :html5,
            views: './lib/views'
 
-helpers do
-  def fetch_memo(request_path)
-    @validation = Memo::Validation.new(request_path)
-    if @validation.exit?
-      @validation.load_content
-    else
-      redirect '/'
-    end
-  end
-end
-
 # index
 get '/' do
   @title = 'Memo App'
@@ -66,6 +55,17 @@ end
 # destroy
 delete '/:path' do
   redirect '/'
+end
+
+helpers do
+  def fetch_memo(request_path)
+    @validation = Memo::Validation.new(request_path)
+    if @validation.exit?
+      @validation.load_content
+    else
+      redirect '/'
+    end
+  end
 end
 
 module Memo
