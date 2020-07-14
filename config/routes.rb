@@ -5,6 +5,18 @@ require 'haml'
 set :haml, format: :html5,
            views: './lib/views'
 
+helpers do
+  def fetch_memo(request_path)
+    memo = Memo::Validation.new(request_path)
+    if memo.valid?
+      memo.load_content
+    else
+      redirect '/'
+      return
+    end
+  end
+end
+
 # index
 get '/' do
   @title = 'Memo App'
@@ -31,31 +43,22 @@ end
 
 # show
 get '/:path' do
-  memo = Memo::Validation.new(request.path)
-  if memo.valid?
-    @memo = memo.load_content
-    @title = "Show #{@memo.title} | Memo App"
-    haml :show
-  else
-    redirect '/'
-  end
+  @memo = fetch_memo(request.path)
+  @title = "Show #{@memo.title} | Memo App"
+  haml :show
 end
 
 # edit
 get '/:path/edit' do
-  memo = Memo::Validation.new(request.path)
   # require 'byebug' ; byebug
-  if memo.valid?
-    @memo = memo.load_content
-    @title = "Edit #{@memo.title} | Memo App"
-    haml :edit
-  else
-    redirect '/'
-  end
+  @memo = fetch_memo(request.path)
+  @title = "Edit #{@memo.title} | Memo App"
+  haml :edit
 end
 
 # update
 patch '/:path' do
+  memo = fetch_memo(request.path)
 end
 
 # destroy
