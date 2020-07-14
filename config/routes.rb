@@ -38,7 +38,6 @@ end
 
 # edit
 get '/:path/edit' do
-  # require 'byebug' ; byebug
   @memo = fetch_memo(request.path)
   @title = "Edit #{@memo.title} | Memo App"
   haml :edit
