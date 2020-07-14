@@ -43,9 +43,16 @@ get '/:path' do
 end
 
 # edit
-get '/:id/edit' do
-  @title = 'Edit Memo | Memo App'
-  haml :edit
+get '/:path/edit' do
+  memo = Memo::Validation.new(request.path)
+  # require 'byebug' ; byebug
+  if memo.valid?
+    @memo = memo.load_content
+    @title = "Edit #{@memo.title} | Memo App"
+    haml :edit
+  else
+    redirect '/'
+  end
 end
 
 # update
@@ -94,7 +101,7 @@ module Memo
 
     def initialize(request_path)
       @title = request_path.slice(/[\w-]+/)
-      @path = "./data#{request_path}"
+      @path = "./data/#{@title}"
     end
 
     def valid?
