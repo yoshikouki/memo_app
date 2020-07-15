@@ -8,4 +8,7 @@ require 'sinatra'
 # Sinatra のオートリロードを実装
 require 'sinatra/reloader'
 
-require_relative '../config/routes'
+require 'haml'
+require 'memo'
+require 'memo/accessor'
+require 'memo/content'
