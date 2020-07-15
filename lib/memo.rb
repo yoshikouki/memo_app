@@ -20,12 +20,10 @@ end
 # create
 post '/' do
   access = Memo::Accessor.new(params['title'])
-  if access.validate_create
-    memo = access.create_content(text: params[:text])
-    redirect "/#{memo.title}"
-  else
-    redirect '/'
-  end
+  redirect '/' and return if access.validate_create
+
+  memo = access.create_content(text: params[:text])
+  redirect "/#{memo.title}"
 end
 
 # show
@@ -63,11 +61,9 @@ end
 helpers do
   def fetch_memo(request_path)
     @validation = Memo::Accessor.new(request_path)
-    if @validation.file_exist?
-      @validation.load_content
-    else
-      redirect '/'
-    end
+    redirect '/' and return if @validation.file_exist?
+
+    @validation.load_content
   end
 end
 
