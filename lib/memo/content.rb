@@ -10,17 +10,13 @@ module Memo
       @title = title
       set_path
       if File.exist?(@path)
-        @text = load_text
+        @text = File.read(@path)
         @text_array = convert_text_to_array
       end
     end
 
     def set_path
       @path = "./data/#{@title}"
-    end
-
-    def load_text
-      File.read(@path)
     end
 
     def convert_text_to_array
