@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 set :haml, format: :html5,
-    views: './lib/views'
+           views: './lib/views'
 
 # index
 get '/' do
