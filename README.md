@@ -10,5 +10,6 @@
 git clone https://github.com/yoshikouki/memo_app.git
 cd memo_app
 bundle install --path=vendor/bundle
+mkdir data
 bundle exec ruby bin/main.rb
 ```
