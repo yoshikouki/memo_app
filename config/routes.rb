@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'haml'
-require 'accessor'
-require 'content'
+require 'memo/accessor'
+require 'memo/content'
 
 set :haml, format: :html5,
            views: './lib/views'

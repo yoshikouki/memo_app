@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'content'
+require 'memo/content'
 
 module Memo
   class Accessor
