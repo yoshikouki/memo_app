@@ -32,5 +32,11 @@ module Memo
     def load_content
       Content.new(@title)
     end
+
+    def self.all_content
+      Dir.open('./data') do |d|
+        d.children.map { |title| Content.new(title) }
+      end
+    end
   end
 end

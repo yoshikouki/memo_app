@@ -7,9 +7,7 @@ set :haml, format: :html5,
 get '/' do
   @title = 'Memo App'
   @is_index = true
-  Dir.open('./data') do |d|
-    @files = d.children
-  end
+  @contents = Memo::Accessor.all_content
   haml :index
 end
 
