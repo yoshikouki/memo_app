@@ -13,11 +13,8 @@ module Memo
       File.exist?(path)
     end
 
-    def validate_new_content(text:)
-      return false if file_exist?(@path)
-
-      @text = text
-      self
+    def validate_create
+      !file_exist?(@path)
     end
 
     def validate_update_content(memo, new_memo)
@@ -25,7 +22,8 @@ module Memo
       !!(memo.title == new_title || !file_exist?("./data/#{new_title}"))
     end
 
-    def create_content
+    def create_content(text:)
+      @text = text
       Content.new(@title).create(text: @text)
     end
 

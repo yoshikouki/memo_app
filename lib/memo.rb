@@ -19,9 +19,13 @@ end
 
 # create
 post '/' do
-  validation = Memo::Accessor.new(params['title'])
-  memo = validation.create_content if validation.validate_new_content(text: params[:text])
-  redirect "/#{memo.title}"
+  access = Memo::Accessor.new(params['title'])
+  if access.validate_create
+    memo = access.create_content(text: params[:text])
+    redirect "/#{memo.title}"
+  else
+    redirect '/'
+  end
 end
 
 # show
