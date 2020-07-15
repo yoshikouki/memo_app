@@ -10,3 +10,6 @@ gem 'thin'
 
 # テンプレートエンジンはHamlを使用
 gem 'haml'
+
+# /lib 内ののオートリロードを実装
+gem 'zeitwerk'
