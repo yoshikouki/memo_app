@@ -65,7 +65,7 @@ end
 helpers do
   def fetch_memo(request_path)
     @validation = Memo::Accessor.new(request_path)
-    if @validation.exit?
+    if @validation.file_exist?
       @validation.load_content
     else
       redirect '/'
