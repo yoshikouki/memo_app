@@ -10,3 +10,6 @@ gem 'thin'
 
 # テンプレートエンジンはHamlを使用
 gem 'haml'
+
+# データベースの導入
+gem 'pg'
