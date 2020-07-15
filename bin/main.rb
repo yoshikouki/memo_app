@@ -16,4 +16,7 @@ loader = Zeitwerk::Loader.new
 loader.push_dir(lib_path)
 loader.setup
 
-require_relative '../config/routes'
+require 'memo'
+require 'haml'
+require 'memo/accessor'
+require 'memo/content'

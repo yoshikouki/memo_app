@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'memo/content'
-
 module Memo
   class Accessor
     attr_reader :title, :path
