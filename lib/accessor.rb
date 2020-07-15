@@ -12,7 +12,7 @@ module Memo
     end
 
     def exit?(path = @path)
-      !File.exist?(path)
+      File.exist?(path)
     end
 
     def validate_new_content(text:)
