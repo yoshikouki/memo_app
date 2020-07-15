@@ -10,7 +10,7 @@ require 'sinatra'
 # Sinatra のオートリロードを実装
 require 'sinatra/reloader'
 
-require 'memo'
 require 'haml'
+require 'memo'
 require 'memo/accessor'
 require 'memo/content'

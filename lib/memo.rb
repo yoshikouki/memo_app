@@ -46,7 +46,7 @@ end
 put '/:path' do
   memo = fetch_memo(request.path)
   new_memo = Memo::Content.new(params['title'])
-  if @validation.validate_update_content(memo, new_memo)
+  if @validation.validate_update(memo, new_memo)
     memo.update(new_memo.title, params['text'])
   end
   redirect "/#{memo.title}"
