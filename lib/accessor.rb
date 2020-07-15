@@ -22,13 +22,9 @@ module Memo
       self
     end
 
-    def validate_update_content(memo, new_content)
-      new_title = new_content[:title]
-      return false if memo.title != new_title && exit?("./data/#{new_title}")
-
-      @title = new_title
-      @text = new_content[:text]
-      self
+    def validate_update_content(memo, new_memo)
+      new_title = new_memo.title
+      !!(memo.title == new_title || !exit?("./data/#{new_title}"))
     end
 
     def create_content
@@ -37,10 +33,6 @@ module Memo
 
     def load_content
       Content.new(@title)
-    end
-
-    def update_content(old_title)
-      Content.new(old_title).update(title: @title, text: @text)
     end
   end
 end

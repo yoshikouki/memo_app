@@ -8,9 +8,15 @@ module Memo
       return if title.empty?
 
       @title = title
-      @path = "./data/#{title}"
-      @text = load_text
-      @text_array = convert_text_to_array
+      set_path
+      if File.exist?(@path)
+        @text = load_text
+        @text_array = convert_text_to_array
+      end
+    end
+
+    def set_path
+      @path = "./data/#{@title}"
     end
 
     def load_text
@@ -26,15 +32,20 @@ module Memo
       save
     end
 
-    def update(title:, text:)
-      File.rename(@path, "./data/#{title}") if @title != title
-      @title = title
-      @text = text
+    def update(new_title, new_text)
+      if @title != new_title
+        old_path = @path.dup
+        @title = new_title
+        set_path
+        File.rename(old_path, @path)
+      end
+      @text = new_text
       save
     end
 
     def save
       File.open(@path, 'w') { |f| f.print @text }
+      self
     end
 
     def destroy

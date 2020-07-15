@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require 'haml'
-require 'Accessor'
+require 'accessor'
+require 'content'
 
 set :haml, format: :html5,
            views: './lib/views'
@@ -25,8 +26,8 @@ end
 # create
 post '/' do
   validation = Memo::Accessor.new(params['title'])
-  validation.create_content if validation.validate_new_content(text: params[:text])
-  redirect "/#{validation.title}"
+  memo = validation.create_content if validation.validate_new_content(text: params[:text])
+  redirect "/#{memo.title}"
 end
 
 # show
@@ -46,7 +47,10 @@ end
 # update
 put '/:path' do
   memo = fetch_memo(request.path)
-  @validation.update_content(memo.title) if @validation.validate_update_content(memo, params)
+  new_memo = Memo::Content.new(params['title'])
+  if @validation.validate_update_content(memo, new_memo)
+    memo.update(new_memo.title, params['text'])
+  end
   redirect "/#{memo.title}"
 end
 
