@@ -32,7 +32,7 @@ module Memo
     end
 
     def create_content
-      Content.new.create(title: @title, text: @text)
+      Content.new(@title).create(text: @text)
     end
 
     def load_content

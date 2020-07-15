@@ -7,8 +7,8 @@ module Memo
     def initialize(title = '')
       return if title.empty?
 
-      @path = "./data/#{title}"
       @title = title
+      @path = "./data/#{title}"
       @text = load_text
       @text_array = convert_text_to_array
     end
@@ -21,8 +21,7 @@ module Memo
       @text.split(/[\n|\r\n|\r]/)
     end
 
-    def create(title:, text:)
-      @title ||= title
+    def create(text:)
       @text = text
       save
     end
