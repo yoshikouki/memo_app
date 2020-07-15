@@ -4,15 +4,13 @@ module Memo
   class Content
     attr_accessor :title, :text, :text_array
 
-    def initialize(title = '')
+    def initialize(title = '', text = '')
       return if title.empty?
 
       @title = title
       set_path
-      if File.exist?(@path)
-        @text = File.read(@path)
-        @text_array = convert_text_to_array
-      end
+      @text = text
+      @text_array = convert_text_to_array
     end
 
     def set_path

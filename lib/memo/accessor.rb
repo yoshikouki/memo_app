@@ -32,8 +32,8 @@ module Memo
     end
 
     def self.all_content
-      Dir.open('./data') do |d|
-        d.children.map { |title| Content.new(title) }
+      PG.connect(dbname: 'memo').exec('SELECT title, text FROM memo') do |result|
+        result.map { |record| Content.new(record['title'], record['text']) }
       end
     end
   end

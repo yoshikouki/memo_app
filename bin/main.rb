@@ -8,6 +8,9 @@ require 'sinatra'
 # Sinatra のオートリロードを実装
 require 'sinatra/reloader'
 
+# データベースはPostgreSQL
+require 'pg'
+
 require 'haml'
 require 'memo'
 require 'memo/accessor'
