@@ -1,0 +1,16 @@
+%h2.mb-5.px-0
+  New
+
+%form{ method: 'post',
+       action: "/" }
+  .memo-title.form-group.my-3
+    %input#memo-name.form-control.w-100.px-4{ type: 'text',
+                                              name: 'title',
+                                              placeholder: 'Title' }
+  .memo-text.form-group.my-3
+    %textarea#memo-text.form-control.w-100.px-4.py-3{ name: 'text',
+                                                         rows: '10',
+                                                         placeholder: 'Memo' }
+  .submit.my-3
+    %button.btn.btn-primary.btn-block{ type: 'submit' }
+      Create
