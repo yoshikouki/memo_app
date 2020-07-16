@@ -11,6 +11,16 @@ get '/' do
   haml :index
 end
 
+# show
+get '/:path' do
+  access = Memo::Accessor.new(convert_path_to_title)
+  required_valid_access(access)
+
+  @memo = access.to_memo
+  @title = "Show #{@memo.title} | Memo App"
+  haml :show
+end
+
 # new
 get '/new' do
   @title = 'New Memo | Memo App'
@@ -25,14 +35,6 @@ post '/' do
   memo = access.create_content(text: params[:text])
   redirect "/#{memo.title}"
 end
-
-# show
-get '/:path' do
-  @memo = fetch_memo(request.path)
-  @title = "Show #{@memo.title} | Memo App"
-  haml :show
-end
-
 # edit
 get '/:path/edit' do
   @memo = fetch_memo(request.path)
@@ -59,11 +61,12 @@ delete '/:path' do
 end
 
 helpers do
-  def fetch_memo(request_path)
-    @validation = Memo::Accessor.new(request_path)
-    redirect '/' and return if @validation.file_exist?
+  def convert_path_to_title
+    request.path.slice(/[\w-]+/)
+  end
 
-    @validation.load_content
+  def required_valid_access(access)
+    redirect '/' unless access.valid?
   end
 end
 
