@@ -11,6 +11,12 @@ get '/' do
   haml :index
 end
 
+# new
+get '/new' do
+  @title = 'New Memo | Memo App'
+  haml :new
+end
+
 # show
 get '/:path' do
   @memo = Memo.find_by_title(convert_path_to_title)
@@ -18,12 +24,6 @@ get '/:path' do
 
   @title = "Show #{@memo.title} | Memo App"
   haml :show
-end
-
-# new
-get '/new' do
-  @title = 'New Memo | Memo App'
-  haml :new
 end
 
 # create
