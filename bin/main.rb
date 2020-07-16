@@ -12,6 +12,6 @@ require 'sinatra/reloader'
 require 'pg'
 
 require 'haml'
+require 'memos_controller'
 require 'memo'
-require 'memo/accessor'
-require 'memo/content'
+require 'memo/memo_class_method'
