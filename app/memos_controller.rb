@@ -28,11 +28,12 @@ end
 
 # create
 post '/' do
-  access = Memo::Accessor.new(params['title'])
+  contents = convert_param_to_contents
+  @memo = Memo.new(**contents)
   require_unique_title
 
-  memo = access.create_content(text: params[:text])
-  redirect "/#{memo.title}"
+  @memo.create
+  redirect "/#{@memo.title}"
 end
 
 # edit
@@ -65,9 +66,15 @@ helpers do
 
   def require_memo_existed(memo)
     redirect '/' unless memo.exist?
+  def convert_param_to_contents
+    params.map do |key, value|
+      [key.to_sym, value]
+    end.to_h
+  end
+
   end
 
   def require_unique_title
-    redirect '/' if access.exist_memo?
+    redirect '/' if @memo.exist?
   end
 end

@@ -17,6 +17,10 @@ class Memo
     !!self.class.find_by_title(@title)
   end
 
+  def create
+    self.class.create(self)
+  end
+
   def update(new_title, new_text)
     if @title != new_title
       old_path = @path.dup
@@ -36,10 +40,5 @@ class Memo
 
   def convert_text_to_array
     @text.split(/[\n|\r\n|\r]/)
-  end
-
-  def save
-    File.open(@path, 'w') { |f| f.print @text }
-    self
   end
 end

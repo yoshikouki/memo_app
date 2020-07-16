@@ -13,9 +13,10 @@ module MemoClassMethod
     fetch_memo(sql, title).first
   end
 
-  def create(text:)
-    @text = text
-    save
+  def create(memo)
+    sql = 'INSERT INTO memo (title, text) VALUES ($1, $2)'
+    values_array = [memo.title, memo.text]
+    DB.exec(sql, values_array)
   end
 
   def validate_create
