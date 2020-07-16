@@ -2,15 +2,19 @@
 
 module Memo
   class Accessor
-    attr_reader :title, :path
+    DB = PG.connect(dbname: 'memo')
 
-    def initialize(request_path)
-      @title = request_path.slice(/[\w-]+/)
-      @path = "./data/#{@title}"
+    def initialize(title)
+      @memo = find_content(title) || nil
+      @title = title
     end
 
-    def file_exist?(path = @path)
-      File.exist?(path)
+    def valid?
+      !!@memo
+    end
+
+    def to_memo
+      @memo
     end
 
     def validate_create
@@ -31,9 +35,26 @@ module Memo
       Content.new(@title)
     end
 
-    def self.all_content
-      PG.connect(dbname: 'memo').exec('SELECT title, text FROM memo') do |result|
-        result.map { |record| Content.new(record['title'], record['text']) }
+    private
+
+    def find_content(title)
+      sql = 'SELECT * FROM memo WHERE title = $1'
+      self.class.fetch_memo(sql, title).first
+    end
+
+    class << self
+      def all_content
+        sql = 'SELECT title, text FROM memo'
+        fetch_memo(sql)
+      end
+
+      def fetch_memo(sql, values_array = [])
+        values_array = [values_array] if values_array.class != Array
+        DB.exec(sql, values_array) do |result|
+          result.map do |record|
+            Content.new(record['title'], record['text'])
+          end
+        end
       end
     end
   end
