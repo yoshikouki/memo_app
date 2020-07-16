@@ -14,7 +14,7 @@ end
 # show
 get '/:path' do
   access = Memo::Accessor.new(convert_path_to_title)
-  required_valid_access(access)
+  require_memo_existed(access)
 
   @memo = access.to_memo
   @title = "Show #{@memo.title} | Memo App"
@@ -35,6 +35,7 @@ post '/' do
   memo = access.create_content(text: params[:text])
   redirect "/#{memo.title}"
 end
+
 # edit
 get '/:path/edit' do
   @memo = fetch_memo(request.path)
@@ -65,8 +66,8 @@ helpers do
     request.path.slice(/[\w-]+/)
   end
 
-  def required_valid_access(access)
-    redirect '/' unless access.valid?
+  def require_memo_existed(access)
+    redirect '/' unless access.exist_memo?
   end
 end
 

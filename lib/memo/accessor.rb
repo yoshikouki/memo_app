@@ -9,7 +9,7 @@ module Memo
       @title = title
     end
 
-    def valid?
+    def exist_memo?
       !!@memo
     end
 
