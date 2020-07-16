@@ -72,6 +72,3 @@ helpers do
     redirect '/' if access.exist_memo?
   end
 end
-
-module Memo
-end
