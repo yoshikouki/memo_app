@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 set :haml, format: :html5,
-           views: './lib/views'
+           views: './app/views'
 
 # index
 get '/' do
   @title = 'Memo App'
   @is_index = true
-  @contents = Memo::Accessor.all_content
+  @memos = Memo.all
   haml :index
 end
 

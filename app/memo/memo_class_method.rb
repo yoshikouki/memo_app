@@ -33,7 +33,7 @@ module MemoClassMethod
     values_array = [values_array] if values_array.class != Array
     DB.exec(sql, values_array) do |result|
       result.map do |record|
-        Content.new(record['title'], record['text'])
+        new(title: record['title'], text: record['text'])
       end
     end
   end
