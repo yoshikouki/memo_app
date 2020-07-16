@@ -19,8 +19,7 @@ end
 
 # show
 get '/:path' do
-  @memo = Memo.find_by_title(convert_path_to_title)
-  require_memo_existed
+  load_memo
 
   @title = "Show #{@memo.title} | Memo App"
   haml :show
@@ -38,7 +37,8 @@ end
 
 # edit
 get '/:path/edit' do
-  @memo = fetch_memo(request.path)
+  load_memo
+
   @title = "Edit #{@memo.title} | Memo App"
   haml :edit
 end
@@ -60,6 +60,11 @@ delete '/:path' do
 end
 
 helpers do
+  def load_memo
+    @memo = Memo.find_by_title(convert_path_to_title)
+    require_memo_existed
+  end
+
   def convert_path_to_title
     request.path.slice(/[\w-]+/)
   end
