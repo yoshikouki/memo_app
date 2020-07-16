@@ -13,10 +13,9 @@ end
 
 # show
 get '/:path' do
-  access = Memo::Accessor.new(convert_path_to_title)
-  require_memo_existed(access)
+  @memo = Memo.find_by_title(convert_path_to_title)
+  require_memo_existed(@memo)
 
-  @memo = access.to_memo
   @title = "Show #{@memo.title} | Memo App"
   haml :show
 end
@@ -64,8 +63,8 @@ helpers do
     request.path.slice(/[\w-]+/)
   end
 
-  def require_memo_existed(access)
-    redirect '/' unless access.exist_memo?
+  def require_memo_existed(memo)
+    redirect '/' unless memo.exist?
   end
 
   def require_unique_title
