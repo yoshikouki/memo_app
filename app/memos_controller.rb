@@ -8,6 +8,7 @@ get '/' do
   @title = 'Memo App'
   @is_index = true
   @memos = Memo.all
+
   haml :index
 end
 

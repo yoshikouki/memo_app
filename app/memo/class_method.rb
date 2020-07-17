@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module MemoClassMethod
+module ClassMethod
   DB = PG.connect(dbname: 'memo')
 
   def all

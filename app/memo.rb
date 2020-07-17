@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Memo
-  extend MemoClassMethod
+  extend ClassMethod
 
   attr_accessor :title, :text, :text_array, :id
 
