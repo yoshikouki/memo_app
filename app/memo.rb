@@ -28,7 +28,8 @@ class Memo
   end
 
   def destroy
-    File.delete(@path)
+    memo = self_on_record
+    self.class.destroy(memo)
   end
 
   private

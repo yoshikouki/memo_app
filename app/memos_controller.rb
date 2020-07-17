@@ -58,9 +58,10 @@ end
 
 # destroy
 delete '/:path' do
-  if memo = fetch_memo(request.path)
-    memo.destroy
-  end
+  load_memo
+  require_memo_existed
+  @memo.destroy
+
   redirect '/'
 end
 

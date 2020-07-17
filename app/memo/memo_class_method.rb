@@ -25,6 +25,12 @@ module MemoClassMethod
     DB.exec(sql, values_array)
   end
 
+  def destroy(memo)
+    sql = 'DELETE FROM memo WHERE id = $1;'
+    values_array = [memo.id]
+    DB.exec(sql, values_array)
+  end
+
   def validate_create
     !file_exist?(@path)
   end
