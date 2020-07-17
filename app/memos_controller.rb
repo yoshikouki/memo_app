@@ -20,6 +20,7 @@ end
 # show
 get '/:path' do
   load_memo
+  require_memo_existed
 
   @title = "Show #{@memo.title} | Memo App"
   haml :show
@@ -30,14 +31,15 @@ post '/' do
   contents = convert_param_to_contents
   @memo = Memo.new(**contents)
   require_unique_title
-
   @memo.create
+
   redirect "/#{@memo.title}"
 end
 
 # edit
 get '/:path/edit' do
   load_memo
+  require_memo_existed
 
   @title = "Edit #{@memo.title} | Memo App"
   haml :edit
@@ -62,7 +64,6 @@ end
 helpers do
   def load_memo
     @memo = Memo.find_by_title(convert_path_to_title)
-    require_memo_existed
   end
 
   def convert_path_to_title

@@ -4,17 +4,17 @@ module MemoClassMethod
   DB = PG.connect(dbname: 'memo')
 
   def all
-    sql = 'SELECT title, text FROM memo'
+    sql = 'SELECT title, text FROM memo;'
     fetch_memo(sql)
   end
 
   def find_by_title(title)
-    sql = 'SELECT * FROM memo WHERE title = $1'
+    sql = 'SELECT * FROM memo WHERE title = $1;'
     fetch_memo(sql, title).first
   end
 
   def create(memo)
-    sql = 'INSERT INTO memo (title, text) VALUES ($1, $2)'
+    sql = 'INSERT INTO memo (title, text) VALUES ($1, $2);'
     values_array = [memo.title, memo.text]
     DB.exec(sql, values_array)
   end
