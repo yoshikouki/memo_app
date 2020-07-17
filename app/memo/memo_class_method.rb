@@ -19,6 +19,12 @@ module MemoClassMethod
     DB.exec(sql, values_array)
   end
 
+  def update(memo, update_memo)
+    sql = 'UPDATE memo SET title = $1, text = $2 WHERE id = $3;'
+    values_array = [update_memo.title, update_memo.text, memo.id]
+    DB.exec(sql, values_array)
+  end
+
   def validate_create
     !file_exist?(@path)
   end
@@ -34,7 +40,7 @@ module MemoClassMethod
     values_array = [values_array] if values_array.class != Array
     DB.exec(sql, values_array) do |result|
       result.map do |record|
-        new(title: record['title'], text: record['text'])
+        new(title: record['title'], text: record['text'], id: record['id'])
       end
     end
   end

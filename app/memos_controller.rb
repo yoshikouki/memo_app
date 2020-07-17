@@ -47,10 +47,13 @@ end
 
 # update
 put '/:path' do
-  memo = fetch_memo(request.path)
-  new_memo = Memo::Content.new(params['title'])
-  memo.update(new_memo.title, params['text']) if @validation.validate_update(memo, new_memo)
-  redirect "/#{memo.title}"
+  load_memo
+  require_memo_existed
+  update_memo = Memo.new(**convert_param_to_contents)
+  require_unique_title(update_memo) if @memo.title != update_memo.title
+  @memo.update(update_memo)
+
+  redirect "/#{update_memo.title}"
 end
 
 # destroy
@@ -71,16 +74,14 @@ helpers do
   end
 
   def convert_param_to_contents
-    params.map do |key, value|
-      [key.to_sym, value]
-    end.to_h
+    { title: params['title'], text: params['text'] }
   end
 
   def require_memo_existed
     redirect '/' unless @memo.exist?
   end
 
-  def require_unique_title
-    redirect '/' if @memo.exist?
+  def require_unique_title(memo = @memo)
+    redirect '/' if memo.exist?
   end
 end

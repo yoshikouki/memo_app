@@ -3,11 +3,12 @@
 class Memo
   extend MemoClassMethod
 
-  attr_accessor :title, :text, :text_array, :record
+  attr_accessor :title, :text, :text_array, :id
 
-  def initialize(title: '', text: '')
+  def initialize(title: '', text: '', id: nil)
     return if title.empty?
 
+    @id = id
     @title = title
     @text = text
     @text_array = convert_text_to_array
@@ -21,15 +22,9 @@ class Memo
     self.class.create(self)
   end
 
-  def update(new_title, new_text)
-    if @title != new_title
-      old_path = @path.dup
-      @title = new_title
-      set_path
-      File.rename(old_path, @path)
-    end
-    @text = new_text
-    save
+  def update(update_memo)
+    memo = self_on_record
+    self.class.update(memo, update_memo)
   end
 
   def destroy
@@ -40,5 +35,11 @@ class Memo
 
   def convert_text_to_array
     @text.split(/[\n|\r\n|\r]/)
+  end
+
+  def self_on_record
+    record = self.class.find_by_title(title)
+    @id = record.id
+    record
   end
 end
