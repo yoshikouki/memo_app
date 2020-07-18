@@ -4,12 +4,13 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
+# Webフレームワーク
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'thin'
 
-# テンプレートエンジンはHamlを使用
+# テンプレートエンジン
 gem 'haml'
 
-# データベースの導入
+# データベース
 gem 'pg'
