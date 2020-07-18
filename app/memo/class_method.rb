@@ -31,15 +31,6 @@ module ClassMethod
     DB.exec(sql, values_array)
   end
 
-  def validate_create
-    !file_exist?(@path)
-  end
-
-  def validate_update(memo, new_memo)
-    new_title = new_memo.title
-    !!(memo.title == new_title || !file_exist?("./data/#{new_title}"))
-  end
-
   private
 
   def fetch_memo(sql, values_array = [])

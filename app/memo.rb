@@ -6,8 +6,6 @@ class Memo
   attr_accessor :title, :text, :text_array, :id
 
   def initialize(title: '', text: '', id: nil)
-    return if title.empty?
-
     @id = id
     @title = title
     @text = text

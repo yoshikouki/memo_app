@@ -3,15 +3,11 @@
 
 $LOAD_PATH.unshift(File.expand_path('../app/', __dir__))
 
-# Sinatra
 require 'sinatra'
-# Sinatra のオートリロードを実装
 require 'sinatra/reloader'
-
-# データベースはPostgreSQL
+require 'haml'
 require 'pg'
 
-require 'haml'
 require 'memo/class_method'
 require 'memo'
 require 'memos_controller'
