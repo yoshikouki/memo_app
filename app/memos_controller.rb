@@ -29,7 +29,7 @@ end
 
 # create
 post '/' do
-  contents = convert_param_to_contents
+  contents = contents_with_symbolize_keys
   @memo = Memo.new(**contents)
   require_unique_title
   @memo.create
@@ -50,7 +50,7 @@ end
 put '/:path' do
   load_memo
   require_memo_existed
-  update_memo = Memo.new(**convert_param_to_contents)
+  update_memo = Memo.new(**contents_with_symbolize_keys)
   require_unique_title(update_memo) if @memo.title != update_memo.title
   @memo.update(update_memo)
 
@@ -75,7 +75,7 @@ helpers do
     request.path.slice(/[\w-]+/)
   end
 
-  def convert_param_to_contents
+  def contents_with_symbolize_keys
     { title: params['title'], text: params['text'] }
   end
 
