@@ -3,13 +3,13 @@
 class Memo
   extend ClassMethod
 
-  attr_accessor :title, :text, :text_array, :id
+  attr_accessor :title, :text, :formatted_text, :id
 
   def initialize(title: '', text: '', id: nil)
     @id = id
     @title = title
     @text = text
-    @text_array = convert_text_to_array
+    @formatted_text = split_text_with_line_break
   end
 
   def exist?
@@ -32,7 +32,7 @@ class Memo
 
   private
 
-  def convert_text_to_array
+  def split_text_with_line_break
     @text.split(/[\n|\r\n|\r]/)
   end
 
