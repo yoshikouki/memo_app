@@ -4,8 +4,13 @@ module ClassMethod
   DB = PG.connect(dbname: 'memo')
 
   def all
-    sql = 'SELECT title, text FROM memo;'
+    sql = 'SELECT * FROM memo;'
     fetch_memo(sql)
+  end
+
+  def find(id)
+    sql = 'SELECT * FROM memo WHERE id = $1;'
+    fetch_memo(sql, id).first
   end
 
   def find_by_title(title)

@@ -19,7 +19,7 @@ get '/new' do
 end
 
 # show
-get '/:path' do
+get '/:id' do
   load_memo
   require_memo_existed
 
@@ -68,10 +68,10 @@ end
 
 helpers do
   def load_memo
-    @memo = Memo.find_by_title(convert_path_to_title)
+    @memo = Memo.find(convert_path_to_id)
   end
 
-  def convert_path_to_title
+  def convert_path_to_id
     request.path.slice(/[\w-]+/)
   end
 

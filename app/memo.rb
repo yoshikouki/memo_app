@@ -13,7 +13,7 @@ class Memo
   end
 
   def exist?
-    !!self.class.find_by_title(@title)
+    !!self.class.find(@id)
   end
 
   def create
