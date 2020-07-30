@@ -20,9 +20,8 @@ class Memo
     self.class.create(self)
   end
 
-  def update(update_memo)
-    memo = self_on_record
-    self.class.update(memo, update_memo)
+  def update(title: '', text: '')
+    self.class.update(@id, title, text)
   end
 
   def destroy

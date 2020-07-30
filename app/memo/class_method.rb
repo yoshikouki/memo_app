@@ -24,9 +24,9 @@ module ClassMethod
     DB.exec(sql, values_array)
   end
 
-  def update(memo, update_memo)
+  def update(id, title, text)
     sql = 'UPDATE memo SET title = $1, text = $2 WHERE id = $3;'
-    values_array = [update_memo.title, update_memo.text, memo.id]
+    values_array = [title, text, id]
     DB.exec(sql, values_array)
   end
 

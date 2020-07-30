@@ -29,12 +29,10 @@ end
 
 # create
 post '/' do
-  contents = contents_with_symbolize_keys
-  @memo = Memo.new(**contents)
-  require_unique_title
+  @memo = Memo.new(**contents_with_symbolize_keys)
   @memo.create
 
-  redirect "/#{@memo.title}"
+  redirect "/#{@memo.id}"
 end
 
 # edit
@@ -50,11 +48,9 @@ end
 put '/:path' do
   load_memo
   require_memo_existed
-  update_memo = Memo.new(**contents_with_symbolize_keys)
-  require_unique_title(update_memo) if @memo.title != update_memo.title
-  @memo.update(update_memo)
+  @memo.update(**contents_with_symbolize_keys)
 
-  redirect "/#{update_memo.title}"
+  redirect "/#{@memo.id}"
 end
 
 # destroy
@@ -81,9 +77,5 @@ helpers do
 
   def require_memo_existed
     redirect '/' unless @memo.exist?
-  end
-
-  def require_unique_title(memo = @memo)
-    redirect '/' if memo.exist?
   end
 end
