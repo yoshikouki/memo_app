@@ -13,11 +13,6 @@ module ClassMethod
     fetch_memo(sql, id).first
   end
 
-  def find_by_title(title)
-    sql = 'SELECT * FROM memo WHERE title = $1;'
-    fetch_memo(sql, title).first
-  end
-
   def create(memo)
     sql = 'INSERT INTO memo (title, text) VALUES ($1, $2);'
     values_array = [memo.title, memo.text]

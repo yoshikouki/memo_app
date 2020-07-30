@@ -25,19 +25,12 @@ class Memo
   end
 
   def destroy
-    memo = self_on_record
-    self.class.destroy(memo)
+    self.class.destroy(self)
   end
 
   private
 
   def split_text_with_line_break
     @text.split(/[\n|\r\n|\r]/)
-  end
-
-  def self_on_record
-    record = self.class.find_by_title(title)
-    @id = record.id
-    record
   end
 end
